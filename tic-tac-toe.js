@@ -3,7 +3,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     const squares = document.querySelectorAll("#board div");
     const statusDiv = document.getElementById("status");
-    let currentPlayer = "X";  // Start with player X
+    const newGameButton = document.querySelector(".btn"); // The "New Game" button
+    let currentPlayer = "X";
     let boardState = Array(9).fill(null);
     let gameOver = false;
 
@@ -24,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let combo of winningCombos) {
             const [a, b, c] = combo;
             if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
-                // Winner found
                 gameOver = true;
                 statusDiv.textContent = `Congratulations! ${boardState[a]} is the Winner!`;
                 statusDiv.classList.add("you-won");
@@ -33,7 +33,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Style the board and set up event listeners
+    // Function to reset the game (Exercise 5)
+    function resetGame() {
+        boardState = Array(9).fill(null);
+        gameOver = false;
+        currentPlayer = "X";
+        statusDiv.textContent = "Move your mouse over a square and click to play an X or an O.";
+        statusDiv.classList.remove("you-won");
+
+        // Clear all squares
+        squares.forEach(square => {
+            square.textContent = "";
+            square.classList.remove("X", "O");
+        });
+    }
+
+    // Event listeners for squares
     squares.forEach((square, index) => {
         square.classList.add("square");
 
@@ -44,17 +59,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 square.textContent = currentPlayer;
                 square.classList.add(currentPlayer);
 
-                // Check if current player won
                 checkWinner();
 
-                // Switch turn if game still active
                 if (!gameOver) {
                     currentPlayer = currentPlayer === "X" ? "O" : "X";
                 }
             }
         });
 
-        // Hover effects (from Exercise 3)
+        // Hover effects
         square.addEventListener("mouseover", function () {
             square.classList.add("hover");
         });
@@ -64,6 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    console.log("Tic Tac Toe fully functional!");
-});
+    //  Add event listener for the "New Game" button
+    newGameButton.addEventListener("click", resetGame);
 
+    console.log("Tic Tac Toe fully functional with reset feature!");
+});
