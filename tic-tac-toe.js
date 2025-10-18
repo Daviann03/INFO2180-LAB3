@@ -9,19 +9,25 @@ document.addEventListener("DOMContentLoaded", function () {
     squares.forEach((square, index) => {
         square.classList.add("square");
 
-        // Add a click event to each square
+        // Handle clicks for X and O
         square.addEventListener("click", function () {
-            // Only allow marking an empty square
             if (!boardState[index]) {
-                boardState[index] = currentPlayer; // Record move
-                square.textContent = currentPlayer; // Display X or O
-                square.classList.add(currentPlayer); // Add class for colour
-
-                // Switch player
+                boardState[index] = currentPlayer;
+                square.textContent = currentPlayer;
+                square.classList.add(currentPlayer);
                 currentPlayer = currentPlayer === "X" ? "O" : "X";
             }
         });
+
+        // Exercise 3: Handle hover styling
+        square.addEventListener("mouseover", function () {
+            square.classList.add("hover");
+        });
+
+        square.addEventListener("mouseout", function () {
+            square.classList.remove("hover");
+        });
     });
 
-    console.log("Tic Tac Toe board loaded and ready!");
+    console.log("Tic Tac Toe board loaded and interactive!");
 });
